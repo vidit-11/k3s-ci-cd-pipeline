@@ -54,9 +54,4 @@ public class Main extends SpringBootServletInitializer {
             return new ResponseEntity<>("Error occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    @GetMapping(value = "{path:[^\\.]*}")
-    public String redirect() {
-        return "forward:/index.html";
-    }
 }
