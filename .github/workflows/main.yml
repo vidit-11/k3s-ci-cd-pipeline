@@ -42,12 +42,9 @@ jobs:
       - name: Set up Kubeconfig
         run: |
           mkdir -p ~/.kube
-          # Replace this secret in GitHub Settings > Secrets
           echo "${{ secrets.K3S_KUBECONFIG }}" > ~/.kube/config
           chmod 600 ~/.kube/config
 
       - name: Update K3s Deployment
         run: |
-          # This triggers the rolling update in K3s
-          # Change 'your-app-name' and 'your-namespace' to match your K8s manifest
           kubectl rollout restart deployment/ci-cd-demo -n demo-erp-system
