@@ -47,4 +47,4 @@ jobs:
 
       - name: Update K3s Deployment
         run: |
-          kubectl rollout restart deployment/ci-cd-demo -n demo-erp-system
+          kubectl rollout restart deployment/ci-cd-demo-backend -n demo-erp-system
