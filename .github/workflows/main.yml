@@ -27,7 +27,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: your-username/your-app:latest
+          tags: vidit11/demo-erp-system:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -50,4 +50,4 @@ jobs:
         run: |
           # This triggers the rolling update in K3s
           # Change 'your-app-name' and 'your-namespace' to match your K8s manifest
-          kubectl rollout restart deployment/your-app-name -n your-namespace
+          kubectl rollout restart deployment/ci-cd-demo -n demo-erp-system
