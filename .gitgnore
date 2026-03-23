@@ -1,0 +1,35 @@
+# === Java/Maven ===
+target/
+!.mvn/wrapper/maven-wrapper.jar
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# === Docker/System ===
+.docker/
+.env
+.env.local
+*.tar
+
+# === Mobile/IDE ===
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.vscode/
+bin/
+
+# === Node/React ===
+node_modules/
+frontend/node_modules/
+dist/
+frontend/build/
+.eslintcache
+npm-debug.log*
+
+# === OS Files ===
+.DS_Store
+Thumbs.db
