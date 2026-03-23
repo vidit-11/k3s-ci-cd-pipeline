@@ -34,7 +34,7 @@ public class Main extends SpringBootServletInitializer {
     @ResponseBody
     public String getStatus() {
         logger.info("Status check requested"); // Will show as GREEN/INFO
-        return "Backend is running!!!";
+        return "Pipeline working beautifully, backend is running!";
     }
 
     @GetMapping("/api/test-error")
