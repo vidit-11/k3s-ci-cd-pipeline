@@ -6,7 +6,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,7 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @SpringBootApplication
-@Controller
+// Remove @Controller from the class level, use it on methods or use @RestController
 public class Main extends SpringBootServletInitializer {
 
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
@@ -29,29 +28,34 @@ public class Main extends SpringBootServletInitializer {
         SpringApplication.run(Main.class, args);
     }
 
-
-    @GetMapping("/api/status")
+    // REMOVED "/api" because it is already in your application.properties
+    @GetMapping("/status") 
     @ResponseBody
     public String getStatus() {
-        logger.info("Status check requested"); // Will show as GREEN/INFO
+        logger.info("Status check requested");
         return "Pipeline working beautifully, backend is running!!!!!!";
     }
 
-    @GetMapping("/api/test-error")
+    @GetMapping("/test-error")
     @ResponseBody
     public String triggerError() {
-        logger.warn("Manual error triggered by developer!"); // Will show as YELLOW
+        logger.warn("Manual error triggered by developer!");
         throw new RuntimeException("This is a test exception for Dozzle colors!");
     }
+}
 
-    // --- GLOBAL EXCEPTION HANDLER ---
-    // This ensures that when a JAR error happens, it is logged and sent to Dozzle
-    @RestControllerAdvice
-    class GlobalHandler {
-        @ExceptionHandler(Exception.class)
-        public ResponseEntity<String> handleAll(Exception ex) {
-            logger.error("CRITICAL ERROR: {}", ex.getMessage(), ex); 
-            return new ResponseEntity<>("Error occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+// Separate the Advice to ensure it doesn't interfere with Actuator's internal routing
+@RestControllerAdvice
+class GlobalHandler {
+    private static final Logger logger = LoggerFactory.getLogger(GlobalHandler.class);
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleAll(Exception ex) {
+        // If the error contains "static resource", it's a 404, not a 500
+        if (ex.getMessage().contains("No static resource")) {
+             return new ResponseEntity<>("Check your URL path! Error: " + ex.getMessage(), HttpStatus.NOT_FOUND);
         }
+        logger.error("CRITICAL ERROR: {}", ex.getMessage(), ex); 
+        return new ResponseEntity<>("Error occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
