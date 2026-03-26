@@ -29,7 +29,7 @@ public class Main extends SpringBootServletInitializer {
     @GetMapping("/status") 
     public String getStatus() { 
         logger.info("Status check requested");
-        return "Pipeline working beautifully, backend is running!!!!!!";
+        return "Pipeline working beautifully, backend is running :D";
     }
 
     @GetMapping("/test-error")
