@@ -9,10 +9,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
-import javax.sql.DataSource;
-import java.sql.Connection;
+
 
 @SpringBootApplication
 @RestController 
@@ -41,14 +38,5 @@ public class Main extends SpringBootServletInitializer {
         logger.warn("Manual error triggered by developer!");
         throw new RuntimeException("This is a test exception for Dozzle colors!");
     }
-    @Bean
-    public CommandLineRunner initDatabase(DataSource dataSource) {
-        return args -> {
-            try (Connection conn = dataSource.getConnection()) {
-                logger.info("Hikari Pool initialized: " + conn.getMetaData().getDatabaseProductName());
-            } catch (Exception e) {
-                logger.error("Failed to initialize pool", e);
-            }
-        };
-    }
+    
 }
