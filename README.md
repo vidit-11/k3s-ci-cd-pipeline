@@ -82,3 +82,26 @@ INFO logs: General "heartbeat" messages about normal operations.
 ERROR logs: Critical failures that need immediate attention.
 
 WARN/DEBUG/TRACE: Varying levels of detail used for troubleshooting specific bugs or unexpected (but not fatal) behavior
+
+# Additional information on heap & non-heap stats:
+Java divides its memory into two main categories: Heap and Non-Heap.
+
+### Heap Memory (The "Work Table")
+This is where the actual "business" of your application happens. Every time your code creates a new object (like a User, an Order, or a List), it is placed on the Heap.
+
+The Heap is further divided into "sub-pools" based on how long objects stay alive:
+
+Eden Space (Young Generation): This is where objects are born. Most objects are temporary (like a local variable in a function) and die here quickly.
+
+Survivor Spaces (S0 and S1): If an object survives a "cleanup" in the Eden space, it gets promoted to a Survivor space.
+
+Old Gen (Tenured Generation): If an object stays alive for a long time (like a configuration setting or a long-lived user session), it is moved here. This is the most important area to watch; if it fills up, your application will slow down or crash with an OutOfMemoryError.
+
+### Non-Heap Memory (The "Tool Rack & Blueprints")
+Non-Heap memory stores the information the JVM needs to understand and run your code, rather than the data your code is currently processing.
+
+Metaspace: This stores the "Blueprints" (Class definitions and Method metadata). In older versions of Java, this was called PermGen. If you load thousands of different classes, this area grows.
+
+Code Cache: This stores "Compiled Code." To make your app fast, the JVM converts your Java code into machine code (JIT compilation). That optimized code lives here.
+
+Compressed Class Space: A specific part of the Metaspace used to optimize memory addresses for class information.
