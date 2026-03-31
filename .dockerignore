@@ -1,0 +1,37 @@
+# Build output
+target/
+build/
+out/
+bin/
+
+# IDE settings
+.idea/
+.vscode/
+*.swp
+*.swo
+*.iml
+
+# Local Maven/Gradle caches and wrappers
+.mvn/wrapper/maven-wrapper.jar
+.gradle/
+.settings/
+.classpath
+.project
+
+# Version control
+.git/
+.gitignore
+.gitattributes
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Github workflows
+.github/
+  
+# Secrets and local environment files
+*.pem
+*.key
+.env
+.env.*
